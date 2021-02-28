@@ -24,6 +24,9 @@ Route::get('/index', [LoginController::class, 'index'])->name('index');
 Route::post('/login', [LoginController::class, 'login'])->name('login_post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/register', [LoginController::class, 'viewRegister'])->name('viewRegister');
+Route::post('/register', [LoginController::class, 'register'])->name('register');
+
 Route::group(['middleware' => ['auth', 'userRole:admin,karyawan']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
