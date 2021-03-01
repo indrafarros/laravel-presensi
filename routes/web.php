@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PresensiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,9 @@ Route::post('/register', [LoginController::class, 'register'])->name('register')
 
 Route::group(['middleware' => ['auth', 'userRole:admin,karyawan']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
+
+Route::group(['middleware' => ['auth', 'userRole:karyawan,admin']], function () {
+    Route::get('/presensi-masuk', [PresensiController::class, 'index'])->name('presensi-masuk');
+    Route::post('/presensi-masuk', [PresensiController::class, 'store'])->name('save-masuk');
 });

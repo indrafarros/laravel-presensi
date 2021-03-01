@@ -16,4 +16,4 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini" onload="realTime()">
