@@ -19,6 +19,11 @@ class PresensiController extends Controller
         return view('Presensi.PresensiMasuk');
     }
 
+    public function presensiKeluar()
+    {
+        return view('Presensi.PresensiKeluar');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -60,6 +65,7 @@ class PresensiController extends Controller
         return redirect('presensi-masuk');
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -89,9 +95,54 @@ class PresensiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function pulang()
+    {
+        $time = 'Asia/Jakarta';
+        $date = new DateTime('now', new DateTimeZone($time));
+        $tanggal = $date->format('Y-m-d');
+        $localTime = $date->format('H:i:s');
+
+        $presensi = Presensi::where([
+            ['user_id', '=', auth()->user()->id],
+            ['tanggal', '=', $tanggal],
+        ])->first();
+
+        $data = [
+            'jam_keluar' => $localTime,
+            'jam_kerja' => date("H:i:s", strtotime($localTime) - strtotime($presensi->jam_masuk))
+        ];
+
+        if ($presensi->jam_keluar == "") {
+            $presensi->update($data);
+            return redirect('presensi-masuk');
+        } else {
+            dd("Data sudah ada");
+        }
+    }
     public function update(Request $request, $id)
     {
-        //
+        $time = 'Asia/Jakarta';
+        $date = new DateTime('now', new DateTimeZone($time));
+        $tanggal = $date->format('Y-m-d');
+        $localTime = $date->format('H:i:s');
+
+        $presensi = Presensi::where([
+            ['user_id', '=', auth()->user()->id],
+            ['tanggal', '=', $tanggal],
+        ])->first();
+
+        $data = [
+            'jam_keluar' => $localTime,
+            'jam_kerja' => date("H:i:s", strtotime($localTime) - strtotime($presensi->jam_masuk))
+        ];
+
+        if ($presensi->jam_keluar == "") {
+            $presensi->update($data);
+            return redirect('presensi-masuk');
+        } else {
+            dd("Data sudah ada");
+        }
     }
 
     /**
