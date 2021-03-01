@@ -37,4 +37,6 @@ Route::group(['middleware' => ['auth', 'userRole:karyawan,admin']], function () 
     Route::get('/presensi-keluar', [PresensiController::class, 'presensiKeluar'])->name('presensi-keluar');
     Route::post('/presensi-masuk', [PresensiController::class, 'store'])->name('save-masuk');
     Route::post('/presensi-keluar', [PresensiController::class, 'pulang'])->name('save-keluar');
+    Route::get('/filter-data', [PresensiController::class, 'RekapView'])->name('rekap');
+    Route::get('filter-data/{tanggal_awal}/{tanggal_akhir}', [PresensiController::class, 'rekap'])->name('rekap-data');
 });

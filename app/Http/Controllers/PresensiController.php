@@ -120,6 +120,17 @@ class PresensiController extends Controller
             dd("Data sudah ada");
         }
     }
+
+    public function rekapView()
+    {
+        return view('Presensi.RekapView');
+    }
+    public function rekap($tanggal_awal, $tanggal_akhir)
+    {
+
+        $presensi = Presensi::with('user')->whereBetween('tanggal', [$tanggal_awal, $tanggal_akhir])->orderBy('tanggal', 'asc')->get();
+        return view('Presensi.Rekap', compact('presensi'));
+    }
     public function update(Request $request, $id)
     {
         $time = 'Asia/Jakarta';
